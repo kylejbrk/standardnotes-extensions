@@ -244,39 +244,40 @@ def main():
     """
     base_dir = os.path.dirname(os.path.abspath(__file__))
     # Get environment variables
-    env_var = get_environment(base_dir)
-    base_url = env_var['domain']
+    # env_var = get_environment(base_dir)
+    # base_url = env_var['domain']
+    base_url = 'https://kylejbrk.github.io/standardnotes-extensions/'
     while base_url.endswith('/'):
         base_url = base_url[:-1]
 
-    if (env_var['github']['username'] and env_var['github']['token']):
-        # Get a re-usable session object using user credentials
-        ghub_session = requests.Session()
-        ghub_session.auth = (env_var['github']['username'],
-                             env_var['github']['token'])
-        try:
-            ghub_verify = ghub_session.get("https://api.github.com/")
-            if not ghub_verify.headers['status'] == "200 OK":
-                print("Error: %s " % ghub_verify.headers['status'])
-                print(
-                    "Bad Github credentials in the .env file, check and try again."
-                )
-                sys.exit(1)
-        except Exception as e:
-            print("Unknown error occurred: %s" % e)
-        # Build extensions
-        parse_extensions(base_dir, base_url, ghub_session)
-        # Terminate Session
-        ghub_session.close()
-    else:
-        # Environment file missing
-        print(
-            "Environment variables not set (have a look at env.sample). Using Git Clone method instead"
-        )
-        input(
-            "⚠️ this is an in-efficient process, Press any key to continue:\n")
-        parse_extensions(base_dir, base_url, None)
-        sys.exit(0)
+    # if (env_var['github']['username'] and env_var['github']['token']):
+    #     # Get a re-usable session object using user credentials
+    #     ghub_session = requests.Session()
+    #     ghub_session.auth = (env_var['github']['username'],
+    #                          env_var['github']['token'])
+    #     try:
+    #         ghub_verify = ghub_session.get("https://api.github.com/")
+    #         if not ghub_verify.headers['status'] == "200 OK":
+    #             print("Error: %s " % ghub_verify.headers['status'])
+    #             print(
+    #                 "Bad Github credentials in the .env file, check and try again."
+    #             )
+    #             sys.exit(1)
+    #     except Exception as e:
+    #         print("Unknown error occurred: %s" % e)
+    #     # Build extensions
+    #     parse_extensions(base_dir, base_url, ghub_session)
+    #     # Terminate Session
+    #     ghub_session.close()
+    # else:
+    # Environment file missing
+    print(
+        "Environment variables not set (have a look at env.sample). Using Git Clone method instead"
+    )
+    # input(
+    #     "⚠️ this is an in-efficient process, Press any key to continue:\n")
+    parse_extensions(base_dir, base_url, None)
+    sys.exit(0)
 
 
 if __name__ == '__main__':
